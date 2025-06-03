@@ -32,12 +32,12 @@
                 <option value="">-- Choisissez -- / اختر --</option>
                 @if($filieres && count($filieres))
                     @foreach($filieres as $filiere)
-                        <option value="{{ $filiere->id_filiere }}">
+                        <option value="{{ $filiere->id_filiere }}" {{ old('id_filiere') == $filiere->id_filiere ? 'selected' : '' }}>
                             {{ $filiere->intitule_filiere_fr }} @if($filiere->intitule_filiere_ar) / {{ $filiere->intitule_filiere_ar }} @endif
                         </option>
                     @endforeach
                 @else
-                    <option disabled>Aucune filière trouvée</option>c
+                    <option disabled>Aucune filière trouvée</option>
                 @endif
             </select>
         </div>

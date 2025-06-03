@@ -6,9 +6,6 @@
 @section('content')
     @php
         $user = Auth::user();
-        $filiere_nom = session('filiere_nom');
-        $type_admission = session('type_admission');
-        $type_admis_label = session('type_admis_label');
     @endphp
 
     <h1 class="text-center mb-4">Étape 6 - Récapitulatif / الملخص</h1>

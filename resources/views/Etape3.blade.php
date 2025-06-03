@@ -38,7 +38,7 @@
         <div class="mb-3">
             <label for="id_cat_socio_pro_pere" class="form-label">Catégorie socioprofessionnelle du père / الفئة الاجتماعية المهنية للأب</label>
             <select id="id_cat_socio_pro_pere" name="id_cat_socio_pro_pere" class="form-select" required>
-                <option value="" disabled selected>Choisissez une catégorie / اختر فئة</option>
+                <option value="" disabled {{ old('id_cat_socio_pro_pere') ? '' : 'selected' }}>Choisissez une catégorie / اختر فئة</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id_cat_socio_pro }}"
                         data-decede="{{ Str::contains(Str::lower($cat->intitule_cat_socio_pro_fr), 'décédé') ? '1' : '0' }}"
@@ -75,7 +75,7 @@
         <div class="mb-3">
             <label for="id_cat_socio_pro_mere" class="form-label">Catégorie socioprofessionnelle de la mère / الفئة الاجتماعية المهنية للأم</label>
             <select id="id_cat_socio_pro_mere" name="id_cat_socio_pro_mere" class="form-select" required>
-                <option value="" disabled selected>Choisissez une catégorie / اختر فئة</option>
+                <option value="" disabled {{ old('id_cat_socio_pro_mere') ? '' : 'selected' }}>Choisissez une catégorie / اختر فئة</option>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id_cat_socio_pro }}"
                         data-decede="{{ Str::contains(Str::lower($cat->intitule_cat_socio_pro_fr), 'décédé') ? '1' : '0' }}"
@@ -101,19 +101,17 @@
                 <option value="AUTRE" {{ old('type_tuteur') == 'AUTRE' ? 'selected' : '' }}>Autre / آخر</option>
             </select>
         </div>
+        <!-- Tuteur AUTRE fields -->
         <div id="tuteur_autre_fields" style="display: {{ old('type_tuteur') == 'AUTRE' ? 'block' : 'none' }};">
             <div class="mb-3">
                 <label for="nom_prenom_tuteur" class="form-label">Nom et prénom du tuteur / اسم ونسب الولي</label>
                 <input type="text" id="nom_prenom_tuteur" name="nom_prenom_tuteur" class="form-control" value="{{ old('nom_prenom_tuteur') }}">
             </div>
-            <div class="mb-3">
-                <label for="adresse_tuteur" class="form-label">Adresse du tuteur / عنوان الولي</label>
-                <input type="text" id="adresse_tuteur" name="adresse_tuteur" class="form-control" value="{{ old('adresse_tuteur') }}">
-            </div>
+
             <div class="mb-3">
                 <label for="id_cat_socio_pro_tuteur" class="form-label">Catégorie socio-professionnelle du tuteur / الفئة الاجتماعية المهنية للولي</label>
                 <select id="id_cat_socio_pro_tuteur" name="id_cat_socio_pro_tuteur" class="form-select">
-                    <option value="" disabled selected>Choisissez une catégorie / اختر فئة</option>
+                    <option value="" disabled {{ old('id_cat_socio_pro_tuteur') ? '' : 'selected' }}>Choisissez une catégorie / اختر فئة</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->id_cat_socio_pro }}" {{ old('id_cat_socio_pro_tuteur') == $cat->id_cat_socio_pro ? 'selected' : '' }}>
                             {{ $cat->intitule_cat_socio_pro_fr }} @if($cat->intitule_cat_socio_pro_ar) / {{ $cat->intitule_cat_socio_pro_ar }} @endif
@@ -123,9 +121,9 @@
             </div>
         </div>
 
-        <!-- Adresse des parents -->
+        <!-- Adresse du tuteur -->
         <div class="mb-3">
-            <label for="adresse_tuteur" class="form-label">Adresse des parents / عنوان الأبوين</label>
+            <label for="adresse_tuteur" class="form-label">Adresse du tuteur / عنوان الولي</label>
             <input type="text" id="adresse_tuteur" name="adresse_tuteur" class="form-control" value="{{ old('adresse_tuteur') }}">
         </div>
 

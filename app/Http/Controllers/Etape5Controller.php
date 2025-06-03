@@ -64,31 +64,35 @@ class Etape5Controller extends Controller
         // Get the authenticated user
         $etudiant = $request->user();
 
+        // Check if the user exists in admis table with the selected id_filiere
+        $admis = DB::table('admis')
+            ->where('cne', $etudiant->cne_etu)
+            ->where('id_filiere', $request->id_filiere)
+            ->whereIn('type_admission', ['LP', 'LA'])
+            ->first();
+
+        if (!$admis) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['id_filiere' => 'Vous n\'êtes pas admis dans cette filière.']);
+        }
+
         // Update step to 6
         $etudiant->step = 6;
         $etudiant->save();
 
-        // Get the type_admission for this user
-        $admis = DB::table('admis')
-            ->where('cne', $etudiant->cne_etu)
-            ->whereIn('type_admission', ['LP', 'LA'])
-            ->first();
-
-        // Get the selected filière
-        $filiere = DB::table('filiere')->where('id_filiere', $request->id_filiere)->first();
-        $type_admission = $admis ? $admis->type_admission : null;
-
-        // Get the full label for type_admission
-        $admis_type = DB::table('admis_type')->where('id_admis_type', $type_admission)->first();
-        $type_admis_label = $admis_type ? $admis_type->details_admis_type : $type_admission;
-
-        // Store only names in session
-        session([
-            'filiere_nom' => $filiere ? $filiere->intitule_filiere_fr : '',
-            'type_admis_label' => $type_admis_label,
+        // Insert into inscrit table
+        DB::table('inscrit')->insert([
+            'id_etudiant' => $etudiant->id_etudiant,
+            'id_filiere' => $request->id_filiere,
+            'id_etat' => 1,
+            'date_inscription' => now(),
+            'niveau' => 1,
+            'last_year' => null,
+            'numero_dossier' => null,
+            'code_pieces_manquantes' => null,
         ]);
 
         return redirect()->route('Etape6')->with('success', 'Votre choix a été enregistré.');
     }
 }
-    
